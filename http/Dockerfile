@@ -16,7 +16,7 @@ RUN cargo chef cook --release --target x86_64-unknown-linux-musl --recipe-path r
 COPY --from=planner /app/ ./
 RUN cargo build --release --target x86_64-unknown-linux-musl --bin didkit-http
 
-FROM alpine AS runtime
+FROM alpine:3.23.3 AS runtime
 RUN addgroup -S didkit-http && adduser -S didkit-http -G didkit-http
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/didkit-http /usr/local/bin/didkit-http
 USER didkit-http
